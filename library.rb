@@ -29,9 +29,32 @@
     end
 
 
-    #========question==========
+#========question==========
 
-        def questionTree(mother_answer)
-          puts "#{mother_answer}に関する質問です。"
+    def questionTree(mother_answer)
+      #--------init----------
+      i = 0
+      mqid = 0
 
-        end
+      mqeach = {1=>"mqid01.csv", 2=>"mqid02.csv",3=>"mqid03.csv",4=>"mqid04.csv",
+                5=>"mqid05.csv", 6=>"mqid06.csv",7=>"mqid07.csv",8=>"mqid08.csv",
+                9=>"mqid09.csv"}
+      cqid = Array.new
+      child_question = Array.new
+
+      #------fininit-------
+
+      puts "#{mother_answer}に関する質問です。"
+
+
+      CSV.foreach(mqeach[mother_answer]) do | questionid |
+        cqid[i] = questionid[0]
+        child_question[i] = questionid[1]
+        i += 1
+      end
+
+      puts cqid
+      puts ""
+      puts child_question
+
+    end
