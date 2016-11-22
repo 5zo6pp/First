@@ -38,11 +38,11 @@
       mq_each = {1=>"mqid01.csv", 2=>"mqid02.csv"}
 
       answer = "Y"  #回答
-      last_ans_flg = 0
+      last_ans_flg = 0  #終了フラグ
       last_answer_flg = Array.new #フラグ
       answer_path = Array.new #回答パス
       answer_i = 0  #回答カウンタ変数1
-      answer_j = 0  #回答カウンタ変数2
+      answer_id = 0  #回答カウンタ変数2
 
       CSV.foreach("#{mq_each[mother_answer]}") do | questionid |
         child_question[i] = questionid[0]
@@ -50,12 +50,6 @@
         i += 1
       end
 
-      #下処理
-      #for i in 0..10
-      #  if last_answer_flg[i] == 0 then
-      #    last_answer_flg[i] = nil
-      #  end
-      #end
       #------fininit-------
 
       #-----main-----------
@@ -67,54 +61,60 @@
 
       #----mainquestion----
 
-      until last_ans_flg == 1 do
+      while true do
 
-        puts child_question[answer_j]
+        #デバッグ
+        puts "answerは#{answer}"
+        puts "answer_iは#{answer_i}"
+        puts "answer_idは#{answer_id}"
+        puts "answer_pathは#{answer_path}"
+        puts "last_ans_flgは#{last_ans_flg}"
+        puts ""
+
+        puts child_question[answer_id]
         puts "「はい」→yキー"
         puts "「いいえ」→nキー"
         puts "を入力してください"
         answer = gets.chop
 
+        if last_ans_flg == 1 && answer == "y" then
+          puts "終了です"
+            break
+        end
+
         #デバッグ
         puts "answerは#{answer}"
-        puts "answer_iは#{answer_i}"
-        puts "answer_jは#{answer_j}"
-        puts "answer_pathは#{answer_path}"
-        puts "last_ans_flgは#{last_ans_flg}"
-        puts ""
+        puts "-------------------------"
 
         if answer == "y" then #回答がYならば
           puts "Yesです"
-          answer_path[answer_i] = answer_j  #回答パスに追加
-          last_ans_flg = last_answer_flg[answer_j] #終了フラグ処理
+          answer_path[answer_i] = answer_id  #回答パスに追加
 
-          if answer_j == 0 then
-            answer_j = 1  #最初の質問の処理
-            answer_j = answer_j*2-1 #配列の添字のカウンタを変更
+          if answer_id == 0 then
+            answer_id = 1  #最初の質問の処理
+            answer_id = answer_id*2-1 #配列の添字のカウンタを変更
           else
-            answer_j = answer_j*2+1 #配列の添字のカウンタを変更
+            answer_id = answer_id*2+1 #配列の添字のカウンタを変更
           end
           answer_i += 1 #カウンタ変数をインクリメント
-          last_ans_flg = last_answer_flg[answer_j] #終了フラグ処理
 
         elsif answer == "n"
           puts "Noです"
-          answer_path[answer_i] = answer_j  #回答パスに追加
-          last_ans_flg = last_answer_flg[answer_j] #終了フラグ処理
+          answer_path[answer_i] = answer_id  #回答パスに追加
 
-          if answer_j == 0 then
-            answer_j = 1  #最初の質問の処理
-            answer_j = answer_j*2 #配列の添字のカウンタを変更
+          if answer_id == 0 then
+            answer_id = 1  #最初の質問の処理
+            answer_id = answer_id*2 #配列の添字のカウンタを変更
           else
-            answer_j = answer_j*2 #配列の添字のカウンタを変更
+            answer_id = answer_id*2 #配列の添字のカウンタを変更
           end
           answer_i += 1 #カウンタ変数をインクリメント
 
-      end
-    end
+      end   #ifのおわりend
+
+      last_ans_flg = last_answer_flg[answer_id] #終了フラグ処理
 
 
-    puts "終了です。"
+    end    #whileのおわりend
 
-
-  end
+  end   #defのおわりend
