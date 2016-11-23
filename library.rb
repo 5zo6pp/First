@@ -112,7 +112,7 @@
 
       end   #ifのおわりend
 
-      last_ans_flg = last_answer_flg[answer_id] #終了フラグ処理
+      last_ans_flg = last_answer_flg[answer_id].to_i #終了フラグ処理
 
 
     end    #whileのおわりend
